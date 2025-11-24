@@ -12,7 +12,7 @@
 
    <li class="nav-item">
       <a href="{{ url('/spv-pengajuan') }}"
-         class="nav-link {{ Request::segment(1) == 'absensi' && Request::segment(2) == 'dosen' ? 'active' : '' }}">
+         class="nav-link {{ Request::segment(1) == 'spv-pengajuan' ? 'active' : '' }}">
          <i class="fas fa-calendar-check"></i>
          <p>&nbsp; 
             Pengajuan Lembur

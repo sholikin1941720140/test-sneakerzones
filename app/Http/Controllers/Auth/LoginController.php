@@ -25,7 +25,7 @@ class LoginController extends Controller
             $data['total_users'] = DB::table('users')->count();
             $data['total_staff'] = DB::table('users')->where('role', 'staff')->count();
             $data['total_supervisor'] = DB::table('users')->where('role', 'spv')->count();
-            $data['total_manager'] = DB::table('users')->where('role', 'manager')->count();
+            $data['total_manager'] = DB::table('users')->where('role', 'manajer')->count();
             $data['total_pengajuan'] = DB::table('overtimes')->count();
             $data['total_approved'] = DB::table('overtimes')->whereNotNull('approved_by')->count();
             $data['total_pending'] = DB::table('overtimes')->whereNull('approved_by')->count();
@@ -77,7 +77,6 @@ class LoginController extends Controller
 
     public function loginUser(Request $request)
     {
-        // return response()->json($request->all());
         $request->validate([
             'email' => 'required',
             'password' => 'required',

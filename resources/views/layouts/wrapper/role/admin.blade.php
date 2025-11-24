@@ -11,7 +11,7 @@
    </li>
    <li class="nav-item">
       <a href="{{url('/admin')}}"
-         class="nav-link {{Request::segment(1) == 'absensi' && Request::segment(2) == 'mahasiswa' ? 'active' : ''}}">
+         class="nav-link {{ Request::segment(1) == 'admin' ? 'active' : '' }}">
          <i class="fas fa-calendar-check"></i>
          <p> &nbsp;
             Report Lembur

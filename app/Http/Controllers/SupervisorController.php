@@ -11,15 +11,20 @@ class SupervisorController extends Controller
 {
     public function index()
     {
+        $id = auth()->id();
+
         $data = DB::table('overtimes')
                     ->join('users', 'overtimes.user_id', '=', 'users.id')
                     ->leftJoin('users as pic_user', 'overtimes.pic', '=', 'pic_user.id')
+                    ->leftJoin('users as approved_user', 'overtimes.approved_by', '=', 'approved_user.id')
                     ->select(
                         'overtimes.*',
                         'users.name',
                         'users.email',
-                        'pic_user.name as pic_name'
+                        'pic_user.name as pic_name',
+                        'approved_user.name as approved_by_name'
                     )
+                    ->where('overtimes.pic', $id)
                     ->orderBy('overtimes.created_at', 'desc')
                     ->get();
 

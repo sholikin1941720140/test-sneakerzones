@@ -11,7 +11,7 @@
    </li>
    <li class="nav-item">
       <a href="{{url('/manajer-pengajuan')}}"
-         class="nav-link {{Request::segment(1) == 'absensi' && Request::segment(2) == 'mahasiswa' ? 'active' : ''}}">
+         class="nav-link {{ Request::segment(1) == 'manajer-pengajuan' ? 'active' : '' }}">
          <i class="fas fa-calendar-check"></i>
          <p> &nbsp;
             Daftar Pengajuan Lembur

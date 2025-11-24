@@ -10,7 +10,7 @@ class StaffController extends Controller
 {
     public function index(Request $request)
     {
-        $userId = Auth::id();
+        $id = Auth::id();
 
         $query = DB::table('overtimes')
                     ->leftJoin('users as pic_user', 'overtimes.pic', '=', 'pic_user.id')
@@ -20,19 +20,14 @@ class StaffController extends Controller
                         'pic_user.name as pic_name',
                         'approved_user.name as approved_by_name'
                     )
-                    ->where('overtimes.user_id', $userId);
+                    ->where('overtimes.user_id', $id);
 
         if ($request->filled('start_date') && $request->filled('end_date')) {
             $query->whereBetween('overtimes.date', [$request->start_date, $request->end_date]);
         }
 
         if ($request->filled('status')) {
-            if ($request->status == 'approved') {
-                $query->whereNotNull('overtimes.approved_by')
-                    ->where('overtimes.approved_by', '>', 0);
-            } elseif ($request->status == 'pending') {
-                $query->whereNull('overtimes.approved_by');
-            }
+            $query->where('overtimes.status', $request->status);
         }
 
         $data = $query->orderBy('overtimes.date', 'desc')
@@ -41,11 +36,13 @@ class StaffController extends Controller
 
         $stats = [
             'total_lembur' => $data->sum('total_hours'),
-            'total_approved' => $data->where('approved_by', '!=', null)->sum('total_hours'),
-            'total_pending' => $data->where('approved_by', '==', null)->sum('total_hours'),
+            'total_approved' => $data->where('status', 'approved')->sum('total_hours'),
+            'total_pending' => $data->where('status', 'pending')->sum('total_hours'),
+            'total_rejected' => $data->where('status', 'rejected')->sum('total_hours'),
             'jumlah_pengajuan' => $data->count(),
-            'jumlah_approved' => $data->where('approved_by', '!=', null)->count(),
-            'jumlah_pending' => $data->where('approved_by', '==', null)->count(),
+            'jumlah_approved' => $data->where('status', 'approved')->count(),
+            'jumlah_pending' => $data->where('status', 'pending')->count(),
+            'jumlah_rejected' => $data->where('status', 'rejected')->count(),
         ];
 
         return view('dashboard.staff.index', compact('data', 'stats'));

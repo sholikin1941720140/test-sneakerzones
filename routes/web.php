@@ -28,6 +28,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/manajer-pengajuan/update/{id}', [ManajerController::class, 'update'])->name('manajer-overtime.update');
 
     Route::get('/admin', [AdminController::class, 'index'])->name('admin-overtime.index');
+    Route::get('/admin-laporan/detail/{id}', [AdminController::class, 'detail'])->name('admin.laporan.detail');
 
     Route::get('/logout', [LoginController::class, 'logout']);
 });
